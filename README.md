@@ -73,4 +73,20 @@ You might be worried that we missed some of the values. We’ll let boot create 
 
 ## Let’s install Jenkins X:
 - jx boot: The jx boot interprets the boot pipeline using your local jx binary. The underlying pipeline for booting Jenkins X can later be run inside Kubernetes via Tekton. If ever something goes wrong with Tekton you can always jx boot again to get things back up and running (e.g., if someone accidentally deletes your cluster).
-           
+- jx boot --requirements jx-requirements.yml 
+
+## Generate Bot Token
+[Optional]
+- jx create git server -k GitHub -u https://github.com -a rajat965ng -s <PersonalAccessToken> -n rajat965ng          
+- jx create git token rajat965ng
+
+[Required]
+- Regex: ^[0-9a-f]{40}$
+- Visit: https://www.browserling.com/tools/text-from-regex and generate a token using above regex
+
+- jx step verify env
+- jx edit env
+
+
+## Remove jx
+- jx uninstall
