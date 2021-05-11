@@ -4,10 +4,14 @@ pipeline {
  stages {
 
     stage('source'){
-     echo "source checkout !!"
+        steps {
+           echo "source checkout !!"
+        }
     }
     stage("notify"){
-     echo "send notification !!"
+        steps {
+           echo "send notification !!"
+        }
     }
 
  }
