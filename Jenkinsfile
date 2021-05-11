@@ -15,7 +15,9 @@ pipeline {
     stage('build'){
         steps {
            sh 'ls -a '
-           sh 'gradle build test'
+           withGradle {
+               build test
+           }
         }
     }
 
