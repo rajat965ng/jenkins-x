@@ -1,6 +1,8 @@
 pipeline {
  agent any
-
+ environment {
+   GRADLE = tool name: 'gradle', type: 'gradle'
+ }
  stages {
 
     stage('source'){
@@ -16,7 +18,7 @@ pipeline {
         steps {
 
            sh 'ls -a '
-           sh '${tool name: 'gradle', type: 'gradle'} build test'
+           sh '${GRADLE} build test'
         }
     }
 
