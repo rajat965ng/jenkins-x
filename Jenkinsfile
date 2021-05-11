@@ -1,17 +1,11 @@
 pipeline {
- agent any {
+ agent any
 
-    try {
+ stages {
 
-        stage('source'){
-            echo "source checkout !!"
-        }
-
-    } catch (err) {
-
-      echo "caught error: ${err}"
+    stage('source'){
+     echo "source checkout !!"
     }
-
     stage("notify"){
      echo "send notification !!"
     }
