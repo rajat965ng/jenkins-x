@@ -15,7 +15,7 @@ pipeline {
     stage('build'){
         steps {
            sh 'ls -a '
-           echo "build stage !!"
+           sh 'gradle build test'
         }
     }
 
@@ -27,3 +27,13 @@ pipeline {
 
  }
 }
+
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven {
+        url = uri('http://repo.maven.apache.org/maven2')
+    }
+}
+
