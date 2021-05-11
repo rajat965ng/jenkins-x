@@ -5,8 +5,8 @@ pipeline {
 
     stage('source'){
         steps {
+           cleanupWs()
            git branch: 'master', url: 'https://github.com/rajat965ng/proximity-labs-challenge.git'
-           ls -a proximity-labs-challenge/
            echo "source checkout !!"
         }
     }
