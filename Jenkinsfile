@@ -7,7 +7,7 @@ pipeline {
         steps {
            cleanWs()
            git branch: 'master', url: 'https://github.com/rajat965ng/proximity-labs-challenge.git'
-           sh 'ls -a proximity-labs-challenge/'
+           sh 'ls -a '
            echo "source checkout !!"
         }
     }
