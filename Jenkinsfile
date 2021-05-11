@@ -14,21 +14,8 @@ pipeline {
 
     stage('build'){
         steps {
-        def server = Artifactory.server "LocalArtifactory" // Create a new Artifactory for Gradle object
-        def artifactoryGradle = Artifactory.newGradleBuild()
-        artifactoryGradle.tool = "gradle4" //
-
-        def buildInfo = Artifactory.newBuildInfo()
-        buildInfo.env.capture = true
-        artifactoryGradle.deployer.deployMavenDescriptors = true
-
-        // extra gradle configurations
-        artifactoryGradle.deployer.artifactDeploymentPatterns.addExclude("*.jar")
-        artifactoryGradle.usesPlugin = false
-
-        // run the Gradle piece to deploy
-        artifactoryGradle.run buildFile: 'build.gradle' tasks: 'cleanartifactoryPublish' buildInfo: buildInfo
-
+           sh 'ls -a '
+           sh 'gradle build test'
         }
     }
 
