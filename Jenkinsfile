@@ -11,6 +11,14 @@ pipeline {
            echo "source checkout !!"
         }
     }
+
+    stage('build'){
+        steps {
+           sh 'ls -a '
+           echo "build stage !!"
+        }
+    }
+
     stage("notify"){
         steps {
            echo "send notification !!"
