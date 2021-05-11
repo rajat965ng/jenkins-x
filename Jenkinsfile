@@ -14,8 +14,9 @@ pipeline {
 
     stage('build'){
         steps {
+
            sh 'ls -a '
-           sh './gradlew build test'
+           sh '${tool name: 'gradle', type: 'gradle'} build test'
         }
     }
 
