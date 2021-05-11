@@ -1,4 +1,5 @@
-node any {
+pipeline {
+ agent any {
 
     try {
 
@@ -15,4 +16,5 @@ node any {
      echo "send notification !!"
     }
 
+ }
 }
