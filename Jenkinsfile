@@ -14,7 +14,7 @@ pipeline {
 
     stage('build'){
         steps {
-           withGradle('gradle') {
+           withGradle() {
             build
            }
         }
