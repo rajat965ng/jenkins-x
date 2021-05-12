@@ -1,8 +1,6 @@
 pipeline {
  agent any
- environment {
-   GRADLE = tool name: 'gradle', type: 'gradle'
- }
+
  stages {
 
     stage('source'){
@@ -18,7 +16,9 @@ pipeline {
         steps {
 
            sh 'ls -a '
-           sh '${GRADLE} build test'
+           withDockerContainer('gradle') {
+              sh 'build'
+           }
         }
     }
 
@@ -31,12 +31,4 @@ pipeline {
  }
 }
 
-
-repositories {
-    mavenLocal()
-    mavenCentral()
-    maven {
-        url = uri('http://repo.maven.apache.org/maven2')
-    }
-}
 
