@@ -38,12 +38,9 @@ pipeline {
           }
         }
         steps {
-            sh '''curl -i  \\
-                          -X POST \\
-                          -H "Authorization: token $GIT_PAT_PSW"
-                          -H "Accept: application/vnd.github.v3+json" \\
-                          https://api.github.com/orgs/rajat965ng/repos \\
-                          -d \'{"name":"GitSample", "description":"Demo Git Repo !!"}\''''
+            sh '''curl -i  -X POST -H "Authorization: token $GIT_PAT_PSW" \\
+                  -H "Accept: application/vnd.github.v3+json" https://api.github.com/orgs/rajat965ng/repos \\
+                  -d \'{"name":"GitSample", "description":"Demo Git Repo !!"}\''''
         }
     }
 
