@@ -25,12 +25,16 @@ pipeline {
            sh 'ls -a '
            sh 'gradle build'
         }
+    }
+
+    stage('git publisher') {
         environment {
           GIT_PAT = credentials('GIT_PAT')
         }
         agent {
           docker {
             image 'tutum/curl'
+            reuseNode true
           }
         }
         steps {
