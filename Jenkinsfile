@@ -39,9 +39,12 @@ pipeline {
         }
         steps {
             sh 'ls -a '
-            sh '''curl -i  -X POST -H "Authorization: token $GIT_PAT_PSW" \\
-                  -H "Accept: application/vnd.github.v3+json" https://api.github.com/$GIT_PAT_USR/repos \\
-                  -d \'{"name":"GitSample", "description":"Demo Git Repo !!"}\''''
+
+            sh '''curl --location --request POST \'https://api.github.com/user/repos\' \\
+            --header \'Accept: application/vnd.github.v3+json\' \\
+            --header \'Authorization: Bearer $GIT_PAT_PSW\' \\
+            --header \'Content-Type: application/json\' \\
+            --data-raw \'{"name":"GitSample", "description":"Demo Git Repo !!", "homepage": "https://github.com","private": false,"auto_init":true}\''''
         }
     }
 
