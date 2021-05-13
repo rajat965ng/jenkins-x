@@ -39,10 +39,10 @@ pipeline {
         }
         steps {
             sh 'ls -a '
-            sh 'curl -i -X POST https://api.github.com/user/repos \\
-            -H Accept: application/vnd.github.v3+json \\
-            -H Authorization: Bearer $GIT_PAT_PSW \\
-            -H Content-Type: application/json \\
+            sh 'curl -i -X POST https://api.github.com/user/repos \
+            -H Accept: application/vnd.github.v3+json \
+            -H Authorization: Bearer $GIT_PAT_PSW \
+            -H Content-Type: application/json \
             -d {"name":"GitSample", "description":"Demo Git Repo !!", "homepage": "https://github.com","private": false,"auto_init":true}'
         }
     }
