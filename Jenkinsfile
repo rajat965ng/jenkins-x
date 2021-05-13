@@ -28,6 +28,9 @@ pipeline {
     }
 
     stage('git publisher') {
+        environment {
+          GIT_PAT = credentials('GIT_PAT')
+        }
         agent {
           docker {
             image 'tutum/curl'
