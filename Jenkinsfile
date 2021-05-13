@@ -27,6 +27,21 @@ pipeline {
         }
     }
 
+    stage('git publisher') {
+        agent {
+          docker {
+            image 'tutum/curl'
+          }
+        }
+        steps {
+            curl -i -u $GIT_PAT \
+              -X POST \
+              -H "Accept: application/vnd.github.v3+json" \
+              https://api.github.com/orgs/rajat965ng/repos \
+              -d '{"name":"GitSample", "description":"Demo Git Repo !!"}'
+        }
+    }
+
     stage("notify"){
         steps {
            echo "send notification !!"
