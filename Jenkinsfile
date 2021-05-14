@@ -18,8 +18,8 @@ pipeline {
 
     stage('scaffold project'){
         steps {
-           sh 'sed s/MS-TEMPLATE/$PROJECT_NAME/ README.md | tee README.md'
-           sh 'sed s/ms-template/$PROJECT_NAME/ pom.xml | tee pom.xml'
+           sh 'sed \'s/MS-TEMPLATE/"$PROJECT_NAME"/g\' README.md | tee README.md'
+           sh 'sed \'s/ms-template/"$PROJECT_NAME"/g\' pom.xml  | tee pom.xml'
         }
     }
 
