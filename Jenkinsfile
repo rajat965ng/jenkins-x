@@ -21,11 +21,11 @@ pipeline {
            script {
             def text = readfile file: 'README.md'
             text = text.replaceAll('MS-TEMPLATE', $PROJECT_NAME)
-            writeFile file:'README.md' text: text
+            writeFile file:'README.md', text: text
 
             text = readfile file: 'pom.xml'
             text = text.replaceAll('ms-template', $PROJECT_NAME)
-            writeFile file:'pom.xml' text: text
+            writeFile file:'pom.xml', text: text
            }
         }
     }
