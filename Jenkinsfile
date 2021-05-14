@@ -43,14 +43,18 @@ pipeline {
 
     stage("Initial Commit"){
         steps {
+          script {
+           def GIT_REPO = sh (
+               script: 'cat output.json | jq .clone_url',
+               returnStdout: true
+           ).trim()
+
+           sh 'git remote set-url origin ${GIT_REPO}'
+          }
+
           sh 'ls -a '
           sh 'git config user.name "$GIT_PAT_USR"'
           sh 'git config user.password "$GIT_PAT_PSW"'
-          def GIT_REPO = sh (
-              script: 'cat output.json | jq .clone_url',
-              returnStdout: true
-          ).trim()
-          sh 'git remote set-url origin ${GIT_REPO}'
           sh 'rm output.json && git add . && git commit -m "initial commit"'
           sh 'git push -u origin master'
         }
