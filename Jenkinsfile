@@ -41,7 +41,7 @@ pipeline {
         steps {
           sh 'ls -a '
           sh 'cat output.json | jq .clone_url'
-          sh 'git remote set-url origin `cat output.json | jq -r .clone_url | sed 's/github/$GIT_PAT_USR:$GIT_PAT_PSW@github/'`'
+          sh 'git remote set-url origin `cat output.json | jq -r .clone_url | sed s/github/$GIT_PAT_USR:$GIT_PAT_PSW@github/`'
           sh 'rm output.json && git add . && git commit -m "initial commit"'
           sh 'git push -u origin master'
         }
