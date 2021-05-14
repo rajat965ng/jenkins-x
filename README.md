@@ -90,3 +90,15 @@ You might be worried that we missed some of the values. We’ll let boot create 
 
 ## Remove jx
 - jx uninstall
+
+
+## Self Serve Pipelines
+
+### Create on-demand Maven project from a Maven Template stored in a git repository
+
+#### Maven Template Repository
+- https://github.com/rajat965ng/ms-template.git
+
+#### Create Jenkins job to create a project using this template based on user input
+- Project Type: maven
+- Project Name: sampleProject

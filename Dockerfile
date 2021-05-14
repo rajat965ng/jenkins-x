@@ -7,7 +7,7 @@ RUN /usr/local/bin/install-plugins.sh image-tag-parameter
 
 # SCM
 RUN /usr/local/bin/install-plugins.sh gitlab-plugin generic-webhook-trigger
-RUN /usr/local/bin/install-plugins.sh gitlab-plugin gitee pipeline-github pipeline-maven multibranch-scan-webhook-trigger
+RUN /usr/local/bin/install-plugins.sh gitlab-plugin gitee gitea pipeline-github pipeline-maven multibranch-scan-webhook-trigger
 RUN /usr/local/bin/install-plugins.sh gitlab-plugin jjwt-api urltrigger copyartifact
 RUN /usr/local/bin/install-plugins.sh gitlab-plugin terraform hashicorp-vault-plugin hashicorp-vault-pipeline thycotic-vault semantic-versioning-plugin
 
@@ -33,6 +33,6 @@ RUN add-apt-repository \
    $(lsb_release -cs) \
    stable"
 RUN apt-get update  -qq \
-    && apt-get install docker-ce docker-ce-cli containerd.io -y
+    && apt-get install docker-ce docker-ce-cli containerd.io jq -y
 RUN usermod -aG docker jenkins
 EXPOSE 8080 50000

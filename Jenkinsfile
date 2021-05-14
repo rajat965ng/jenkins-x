@@ -1,29 +1,25 @@
 pipeline {
  agent any
 
+ environment {
+   PROJECT_NAME = "GitSample"
+
+ }
  stages {
 
-    stage('source'){
+    stage('source checkout'){
         steps {
            cleanWs()
-           git branch: 'master', url: 'https://github.com/rajat965ng/proximity-labs-challenge.git'
+           git branch: 'master', url: 'https://github.com/rajat965ng/ms-template.git'
            sh 'ls -a '
            echo "source checkout !!"
         }
     }
 
-    stage('build'){
-        agent {
-          docker {
-            image 'gradle:6.7-jdk11'
-                        // Run the container on the node specified at the top-level of the Pipeline, in the same workspace, rather than on a new node entirely:
-            reuseNode true
-          }
-        }
+    stage('scaffold project'){
         steps {
-
-           sh 'ls -a '
-           sh 'gradle build'
+           sh 'sed 's/MS-TEMPLATE/$PROJECT_NAME/g' README.md | tee README.md'
+           sh 'sed 's/ms-template/$PROJECT_NAME/g' pom.xml  | tee pom.xml'
         }
     }
 
@@ -39,17 +35,33 @@ pipeline {
         }
         steps {
             sh 'ls -a '
-            sh '''curl -i -X POST https://api.github.com/user/repos \\
+            sh '''curl -X POST https://api.github.com/user/repos \\
                   -H "Accept: application/vnd.github.v3+json" \\
                   -H "Authorization: token $GIT_PAT_PSW" \\
                   -H "Content-Type: application/json" \\
-                  -d \'{"name":"GitSample", "description":"Demo Git Repo !!", "homepage": "https://github.com","private": false,"auto_init":true}\''''
+                  -d \'{"name":"$PROJECT_NAME", "description":"Demo Git Repo !!", "homepage": "https://github.com","private": false,"auto_init":true}\' | tee output.json'''
+
         }
     }
 
-    stage("notify"){
+    stage("Initial Commit"){
+        environment {
+          GIT_PAT = credentials('GIT_PAT')
+        }
+        agent {
+          docker {
+            image 'alpine/git'
+            reuseNode true
+          }
+        }
         steps {
-           echo "send notification !!"
+          sh 'ls -a '
+          sh 'git config user.name "$GIT_PAT_USR"'
+          sh 'git config user.password "$GIT_PAT_PSW"'
+          sh 'cat output.json | jq '.clone_url''
+          sh 'git remote set-url origin `$(cat output.json | jq '.clone_url')`'
+          sh 'rm output.json && git add . && git commit -m "initial commit"'
+          sh 'git push -u origin master'
         }
     }
 
