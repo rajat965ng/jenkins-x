@@ -3,6 +3,7 @@ pipeline {
 
  environment {
     PROJECT_NAME = 'GitSample'
+    GIT_PAT = credentials('GIT_PAT')
 
  }
  stages {
@@ -23,9 +24,6 @@ pipeline {
     }
 
     stage('git publisher') {
-        environment {
-          GIT_PAT = credentials('GIT_PAT')
-        }
         agent {
           docker {
             image 'tutum/curl'
@@ -38,21 +36,18 @@ pipeline {
                   -H "Accept: application/vnd.github.v3+json" \\
                   -H "Authorization: token $GIT_PAT_PSW" \\
                   -H "Content-Type: application/json" \\
-                  -d \'{"name":"${PROJECT_NAME}", "description":"Demo Git Repo !!", "homepage": "https://github.com","private": false,"auto_init":true}\' | tee output.json'''
+                  -d '{"name":"${PROJECT_NAME}", "description":"Demo Git Repo !!", "homepage": "https://github.com","private": false,"auto_init":true}' | tee output.json'''
 
         }
     }
 
     stage("Initial Commit"){
-        environment {
-          GIT_PAT = credentials('GIT_PAT')
-        }
         steps {
           sh 'ls -a '
           sh 'git config user.name "$GIT_PAT_USR"'
           sh 'git config user.password "$GIT_PAT_PSW"'
           sh 'cat output.json | jq \'.clone_url\''
-          sh 'git remote set-url origin `$(cat output.json | jq \'.clone_url\')`'
+          sh 'git remote set-url -u origin `$(cat output.json | jq \'.clone_url\')`'
           sh 'rm output.json && git add . && git commit -m "initial commit"'
           sh 'git push -u origin master'
         }
