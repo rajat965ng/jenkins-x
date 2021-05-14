@@ -1,12 +1,12 @@
 pipeline {
  agent any
 
- environment {
-   PROJECT_NAME = "GitSample"
 
- }
  stages {
+    environment {
+      PROJECT_NAME = 'GitSample'
 
+    }
     stage('source checkout'){
         steps {
            cleanWs()
@@ -39,7 +39,7 @@ pipeline {
                   -H "Accept: application/vnd.github.v3+json" \\
                   -H "Authorization: token $GIT_PAT_PSW" \\
                   -H "Content-Type: application/json" \\
-                  -d \'{"name":\"$PROJECT_NAME\", "description":"Demo Git Repo !!", "homepage": "https://github.com","private": false,"auto_init":true}\' | tee output.json'''
+                  -d \'{"name":"${PROJECT_NAME}", "description":"Demo Git Repo !!", "homepage": "https://github.com","private": false,"auto_init":true}\' | tee output.json'''
 
         }
     }
@@ -48,19 +48,14 @@ pipeline {
         environment {
           GIT_PAT = credentials('GIT_PAT')
         }
-        agent {
-          docker {
-            image 'alpine/git'
-            reuseNode true
-          }
-        }
         steps {
-          sh 'config user.name "$GIT_PAT_USR"'
-          sh 'config user.password "$GIT_PAT_PSW"'
+          sh 'ls -a '
+          sh 'git config user.name "$GIT_PAT_USR"'
+          sh 'git config user.password "$GIT_PAT_PSW"'
+          sh 'cat output.json | jq \'.clone_url\''
           sh 'git remote set-url origin `$(cat output.json | jq \'.clone_url\')`'
-          sh 'add .'
-          sh 'commit -m "initial commit"'
-          sh 'push -u origin master'
+          sh 'rm output.json && git add . && git commit -m "initial commit"'
+          sh 'git push -u origin master'
         }
     }
 
