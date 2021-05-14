@@ -1,12 +1,11 @@
 pipeline {
  agent any
 
+ environment {
+    PROJECT_NAME = 'GitSample'
 
+ }
  stages {
-    environment {
-      PROJECT_NAME = 'GitSample'
-
-    }
     stage('source checkout'){
         steps {
            cleanWs()
