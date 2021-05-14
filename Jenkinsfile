@@ -32,29 +32,17 @@ pipeline {
         }
         steps {
             sh 'ls -a '
-            sh '''curl -X POST https://api.github.com/user/repos \\
-                  -H "Accept: application/vnd.github.v3+json" \\
-                  -H "Authorization: token $GIT_PAT_PSW" \\
-                  -H "Content-Type: application/json" \\
-                  -d '{"name": "${env.PROJECT_NAME}", "description":"Demo Git Repo !!", "homepage": "https://github.com","private": false,"auto_init":true}' | tee output.json'''
-
+            sh 'curl -X POST https://api.github.com/user/repos -H "Accept: application/vnd.github.v3+json" -H "Authorization: token $GIT_PAT_PSW" -H "Content-Type: application/json" -d '{"name":"${env.PROJECT_NAME}", "description":"Demo Git Repo !!", "homepage": "https://github.com","private": false,"auto_init":true}' | tee output.json'
         }
     }
 
     stage("Initial Commit"){
         steps {
-          script {
-           def GIT_REPO = sh (
-               script: 'cat output.json | jq \'.clone_url\'',
-               returnStdout: true
-           ).trim()
-
-           sh 'git remote set-url origin ${GIT_REPO}'
-          }
-
           sh 'ls -a '
           sh 'git config user.name "$GIT_PAT_USR"'
           sh 'git config user.password "$GIT_PAT_PSW"'
+          sh 'cat output.json | jq .clone_url'
+          sh 'git remote set-url origin `cat output.json | jq .clone_url`'
           sh 'rm output.json && git add . && git commit -m "initial commit"'
           sh 'git push -u origin master'
         }
