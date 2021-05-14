@@ -36,7 +36,7 @@ pipeline {
                   -H "Accept: application/vnd.github.v3+json" \\
                   -H "Authorization: token $GIT_PAT_PSW" \\
                   -H "Content-Type: application/json" \\
-                  -d '{"name":"${env.PROJECT_NAME}", "description":"Demo Git Repo !!", "homepage": "https://github.com","private": false,"auto_init":true}' | tee output.json'''
+                  -d '{"name": "${env.PROJECT_NAME}", "description":"Demo Git Repo !!", "homepage": "https://github.com","private": false,"auto_init":true}' | tee output.json'''
 
         }
     }
@@ -45,7 +45,7 @@ pipeline {
         steps {
           script {
            def GIT_REPO = sh (
-               script: 'cat output.json | jq .clone_url',
+               script: 'cat output.json | jq \'.clone_url\'',
                returnStdout: true
            ).trim()
 
