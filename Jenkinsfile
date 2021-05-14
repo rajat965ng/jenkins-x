@@ -18,8 +18,8 @@ pipeline {
 
     stage('scaffold project'){
         steps {
-           sh 'sed s/MS-TEMPLATE/$PROJECT_NAME/g README.md | tee README.md'
-           sh 'sed s/ms-template/$PROJECT_NAME/g pom.xml  | tee pom.xml'
+           sh 'sed \'s/MS-TEMPLATE/$PROJECT_NAME/g\' README.md | tee README.md'
+           sh 'sh 'sed \'s/ms-template/$PROJECT_NAME/g\' pom.xml  | tee pom.xml''
         }
     }
 
@@ -58,8 +58,8 @@ pipeline {
           sh 'ls -a '
           sh 'git config user.name "$GIT_PAT_USR"'
           sh 'git config user.password "$GIT_PAT_PSW"'
-          sh 'cat output.json | jq '.clone_url''
-          sh 'git remote set-url origin `$(cat output.json | jq '.clone_url')`'
+          sh 'cat output.json | jq \'.clone_url\''
+          sh 'git remote set-url origin `$(cat output.json | jq \'.clone_url\')`'
           sh 'rm output.json && git add . && git commit -m "initial commit"'
           sh 'git push -u origin master'
         }
