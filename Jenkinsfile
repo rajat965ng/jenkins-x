@@ -19,11 +19,11 @@ pipeline {
     stage('scaffold project'){
         steps {
            script {
-            def text = readfile file: 'README.md'
+            def text = readFile file: 'README.md'
             text = text.replaceAll('MS-TEMPLATE', $PROJECT_NAME)
             writeFile file:'README.md', text: text
 
-            text = readfile file: 'pom.xml'
+            text = readFile file: 'pom.xml'
             text = text.replaceAll('ms-template', $PROJECT_NAME)
             writeFile file:'pom.xml', text: text
            }
