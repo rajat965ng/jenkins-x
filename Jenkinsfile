@@ -43,6 +43,7 @@ pipeline {
           sh 'git config user.name "$GIT_PAT_USR"'
           sh 'git config user.password "$GIT_PAT_PSW"'
           sh 'git config user.email "$GIT_PAT_USR"@org.com'
+          sh 'git config hub.protocol https'
           sh 'cat output.json | jq .clone_url'
           sh 'git remote set-url origin `cat output.json | jq -r .clone_url`'
           sh 'rm output.json && git add . && git commit -m "initial commit"'
